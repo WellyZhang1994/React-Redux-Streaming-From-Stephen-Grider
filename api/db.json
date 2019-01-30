@@ -6,24 +6,10 @@
       "id": 1
     },
     {
-      "title": "test",
-      "description": "testtt",
+      "title": "New Stream",
+      "description": "Create New Stream from React - Redux",
+      "userId": "115884858190586860394",
       "id": 2
-    },
-    {
-      "title": "test",
-      "description": "hello",
-      "id": 3
-    },
-    {
-      "title": "Hello ",
-      "description": "Test",
-      "id": 4
-    },
-    {
-      "title": "sss",
-      "description": "s",
-      "id": 5
     }
   ]
 }

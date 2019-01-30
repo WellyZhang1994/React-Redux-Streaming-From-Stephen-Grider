@@ -3,12 +3,13 @@ import { SIGN_IN ,
          CREATE_STREAM,
          FETCH_STREAMS,
          FETCH_STREAM,
-         DELETE_STREAMS,
-         EDIT_STREAMS
+         DELETE_STREAM,
+         EDIT_STREAM
         } 
         from './type';
 
 import streams from '../apis/stream';
+import history from '../history';
 
 export const signIn = (userId) => {
     return {
@@ -25,12 +26,16 @@ export const signOut = () => {
     };
 };
 
-export const createStream = formValues => async dispatch => {
-    const response = await streams.post('/streams', formValues);
+export const createStream = formValues => async (dispatch, getState) => {
+
+    const userId = getState().auth.userId;
+    const response = await streams.post('/streams', {...formValues, userId});
     dispatch({
         type: CREATE_STREAM,
         payload: response.data
     });
+    //programmatic navigation
+    history.push('/')
 }
 
 /*
@@ -50,25 +55,29 @@ export const fetchStreams = () => async dispatch => {
 };
 
 export const fetchStream = (id) => async dispatch => {
-    const response = await streams.get(`/stream/${id}`);
+    const response = await streams.get(`/streams/${id}`);
     dispatch({
         type: FETCH_STREAM,
         payload: response.data
     });
 };
 
-export const editStream = (id , formValues) => async dispatch => {
-    const response = await streams.put(`/stream/${id}`, formValues);
+export const editStream = (id , formValues) => async (dispatch) => {
+    // put -> update all variable of a record
+    // patch -> update specific variables of a record
+    const response = await streams.patch(`/streams/${id}`, formValues);
     dispatch({
-        type: EDIT_STREAMS,
+        type: EDIT_STREAM,
         payload: response.data
     });
+    history.push('/');
 };
 
 export const deleteStream = (id) => async dispatch => {
-    await streams.delete(`/stream/${id}`);
+    await streams.delete(`/streams/${id}`);
     dispatch({
-        type: DELETE_STREAMS,
+        type: DELETE_STREAM,
         payload: id
     });
+    history.push('/');
 };
